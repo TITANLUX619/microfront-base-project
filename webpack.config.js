@@ -4,6 +4,8 @@ const ExternalTemplateRemotesPlugin = require("external-remotes-plugin");
 const path = require("path");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
+const deps = require("./package.json").dependencies;
+
 module.exports = {
   entry: "./src/index.tsx",
   mode: "development",
@@ -57,20 +59,22 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "remote1",
-      filename: "remote1.js",
+      name: "microfront",
+      filename: "microfront.tsx",
       exposes: {
-        "./Button": "./src/Page1",
-        "./Page2": "./src/Page2",
-        "./ProductList": "./src/products/index",
-        "./productListReducer": "./src/products/reducers/index",
+        "./MicrofrontApp": "./src/App",
       },
       shared: {
-        react: { singleton: true },
-        "react-dom": { singleton: true },
-        "react-router": { singleton: true },
-        "react-router-dom": { singleton: true },
-        "react-redux": { singleton: true },
+        react: { singleton: true, requiredVersion: deps["react"] },
+        "react-dom": { singleton: true, requiredVersion: deps["react-dom"] },
+        "react-router": {
+          singleton: true,
+          requiredVersion: deps["react-router"],
+        },
+        "react-router-dom": {
+          singleton: true,
+          requiredVersion: deps["react-router-dom"],
+        },
       },
     }),
 

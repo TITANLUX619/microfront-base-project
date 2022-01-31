@@ -1,21 +1,24 @@
 import "./App.css";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import PageA from "./components/PageA";
+import PageB from "./components/PageB";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => {
+              return <Redirect to="/pageA" />;
+            }}
+          />
+          <Route path={"/pageA"} component={PageA} />
+          <Route path={"/pageB"} component={PageB} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
